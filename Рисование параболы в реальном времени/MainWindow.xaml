@@ -1,0 +1,96 @@
+﻿<Window x:Class="FlightSimulatorWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Flight Simulator with Air Resistance" Height="750" Width="950">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Панель управления -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Параметры запуска -->
+            <GroupBox Grid.Row="0" Header="Параметры запуска">
+                <StackPanel>
+                    <Label Content="Выберите птицу:"/>
+                    <ComboBox x:Name="cbBirds" SelectedIndex="0">
+                        <ComboBoxItem Content="Синяя (0.7 кг)"/>
+                        <ComboBoxItem Content="Жёлтая (1.0 кг)"/>
+                        <ComboBoxItem Content="Красная (1.5 кг)"/>
+                    </ComboBox>
+
+                    <Label Content="Усиление:"/>
+                    <ComboBox x:Name="cbBoost" SelectedIndex="0">
+                        <ComboBoxItem Content="Нет (x1.0)"/>
+                        <ComboBoxItem Content="Малое (x1.2)"/>
+                        <ComboBoxItem Content="Среднее (x1.5)"/>
+                        <ComboBoxItem Content="Большое (x2.0)"/>
+                    </ComboBox>
+
+                    <Label Content="Сила броска (Н):"/>
+                    <Slider x:Name="slForce" Minimum="1" Maximum="100" Value="50"/>
+
+                    <Label Content="Угол броска (град):"/>
+                    <Slider x:Name="slAngle" Minimum="1" Maximum="89" Value="45"/>
+
+                    <!-- Параметры сопротивления воздуха -->
+                    <Label Content="Плотность воздуха (кг/м³):" Margin="0,10,0,0"/>
+                    <Slider x:Name="slAirDensity" Minimum="0" Maximum="2" Value="1.225" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+
+                    <Label Content="Коэф. сопротивления:"/>
+                    <Slider x:Name="slDragCoefficient" Minimum="0" Maximum="1" Value="0.47" TickFrequency="0.01" IsSnapToTickEnabled="True"/>
+
+                    <Button x:Name="btnSimulate" Content="Запустить" Margin="0,20" Click="BtnSimulate_Click"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Препятствия -->
+            <GroupBox Grid.Row="1" Header="Препятствия" Margin="0,10">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="X:" Width="30"/>
+                        <TextBox x:Name="txtObstacleX" Width="50" Text="20"/>
+                        <Label Content="Ширина:" Width="60" Margin="10,0,0,0"/>
+                        <TextBox x:Name="txtObstacleWidth" Width="50" Text="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <Label Content="Высота:" Width="60"/>
+                        <TextBox x:Name="txtObstacleHeight" Width="50" Text="10"/>
+                        <Label Content="Тип:" Width="40" Margin="10,0,0,0"/>
+                        <ComboBox x:Name="cbObstacleType" Width="80" SelectedIndex="0">
+                            <ComboBoxItem Content="Стена"/>
+                            <ComboBoxItem Content="Яма"/>
+                            <ComboBoxItem Content="Облако"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <Button x:Name="btnAddObstacle" Content="Добавить" Margin="0,5" Click="BtnAddObstacle_Click"/>
+                    <Button x:Name="btnClearObstacles" Content="Очистить все" Click="BtnClearObstacles_Click"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <!-- Панель результатов -->
+        <Grid Grid.Column="1" Margin="10,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="tbResults" Grid.Row="0" Margin="5"/>
+
+            <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="0,10">
+                <Canvas x:Name="canvasTrajectory" Background="White"/>
+            </Border>
+
+            <Button x:Name="btnExport" Grid.Row="2" Content="Экспорт" HorizontalAlignment="Right" Click="BtnExport_Click"/>
+        </Grid>
+    </Grid>
+</Window>
